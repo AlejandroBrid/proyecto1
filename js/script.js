@@ -1,7 +1,24 @@
 'use strict';
-const palabras = ['MANZANA', 'BANANA', 'ELEFANTE', 'casa', 'PERRO'];
+const palabras = ['MANZANA', 'BANANA', 'ELEFANTE', 'casa', 'perro'];
 const btnJugar = document.getElementById('jugar');
+const popup = document.getElementById('popup');
+const popupMensaje = document.getElementById('popupMensaje');
+const popupClose = document.getElementById('popupClose');
 btnJugar.addEventListener('click', iniciar);
+
+function mostrarPopup(mensaje, ganador = false) {
+  popupMensaje.textContent = mensaje;
+  if (ganador) {
+    popup.classList.add('popupGanador');
+  } else {
+    popup.class;
+  }
+  popup.style.display = 'block';
+}
+
+function cerrarPopup() {
+  popup.style.display = 'none';
+}
 
 function iniciar(event) {
   //Seleccionar una palabra al azar de la lista
@@ -15,6 +32,7 @@ function iniciar(event) {
   // Elementos HTML
   const palabraHtml = document.getElementById('palabra');
   const letrasBtn = document.querySelectorAll('#letras button');
+  const intentosRestantes = document.getElementById('vidas');
 
   // Función para mostrar la palabra oculta
   function mostrarPalabra() {
@@ -34,6 +52,12 @@ function iniciar(event) {
     imagenAhorcado.setAttribute('src', `./imagenes/ahorcado0${fallos}.png`);
   }
 
+  function deshabilitarBotonesLetras() {
+    letrasBtn.forEach((btn) => {
+      btn.disabled = true;
+    });
+  }
+
   function verificarLetra(target) {
     const letra = target.textContent.toUpperCase();
     // transformo la palabra en uppercase
@@ -45,9 +69,11 @@ function iniciar(event) {
 
     if (palabra.includes(letra)) {
       letrasAdivinadas.push(letra);
+      target.classList.add('teclaCorrecta');
     } else {
       intentos--;
       fallos++;
+      intentosRestantes.innerHTML = intentos;
       if (fallos <= 6) {
         mostrarImagenAhorcado();
         target.classList.add('teclaErronea');
@@ -57,9 +83,11 @@ function iniciar(event) {
     mostrarPalabra();
 
     if (intentos === 0) {
-      console.log('¡Has perdido! La palabra era: ' + palabra);
+      mostrarPopup('¡Has perdido! La palabra era: ' + palabra);
+      deshabilitarBotonesLetras();
     } else if (!palabraHtml.textContent.includes('_')) {
-      console.log('¡Has ganado! La palabra es: ' + palabra);
+      mostrarPopup('¡Has ganado! La palabra es: ' + palabra);
+      deshabilitarBotonesLetras();
     }
   }
 
@@ -71,4 +99,6 @@ function iniciar(event) {
       verificarLetra(target);
     });
   });
+
+  popupClose.addEventListener('click', cerrarPopup);
 }
