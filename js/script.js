@@ -13,7 +13,7 @@ function mostrarPopup(mensaje, ganador = false) {
   } else {
     popup.class;
   }
-  popup.style.display = 'block';
+  popup.style.display = 'flex';
 }
 
 function cerrarPopup() {
@@ -21,6 +21,7 @@ function cerrarPopup() {
 }
 
 function iniciar(event) {
+  btnJugar.disabled = true;
   //Seleccionar una palabra al azar de la lista
   let palabra = palabras[Math.floor(Math.random() * palabras.length)];
 
@@ -41,7 +42,7 @@ function iniciar(event) {
       if (letrasAdivinadas.includes(palabra[i])) {
         palabraOculta += palabra[i] + '';
       } else {
-        palabraOculta += '_ ';
+        palabraOculta += ' _ ';
       }
     }
     palabraHtml.textContent = palabraOculta;
@@ -86,7 +87,7 @@ function iniciar(event) {
       mostrarPopup('¡Has perdido! La palabra era: ' + palabra);
       deshabilitarBotonesLetras();
     } else if (!palabraHtml.textContent.includes('_')) {
-      mostrarPopup('¡Has ganado! La palabra es: ' + palabra);
+      mostrarPopup('¡Has ganado! La palabra es: ' + palabra, true);
       deshabilitarBotonesLetras();
     }
   }
@@ -100,5 +101,5 @@ function iniciar(event) {
     });
   });
 
-  popupClose.addEventListener('click', cerrarPopup);
+  // popupClose.addEventListener('click', cerrarPopup);
 }
