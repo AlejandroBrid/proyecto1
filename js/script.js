@@ -98,10 +98,12 @@ const palabras = [
   'brocoli',
   'espinaca',
 ];
+
 const btnJugar = document.getElementById('jugar');
 const popup = document.getElementById('popup');
 const popupMensaje = document.getElementById('popupMensaje');
 const popupClose = document.getElementById('popupClose');
+
 btnJugar.addEventListener('click', iniciar);
 
 function mostrarPopup(mensaje, ganador = false) {
@@ -120,6 +122,7 @@ function cerrarPopup() {
 
 function iniciar(event) {
   btnJugar.disabled = true;
+  document.querySelector('h2').style.display = 'block';
   //Seleccionar una palabra al azar de la lista
   let palabra = palabras[Math.floor(Math.random() * palabras.length)];
 
